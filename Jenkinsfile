@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        DOCKER_CREDENTIALS_ID = 'dockerhub-credentials'
-        GITHUB_CREDENTIALS_ID = 'github-credentials'
+        DOCKER_CREDENTIALS_ID = 'jagseersingh'
+        GITHUB_CREDENTIALS_ID = 'js-talentelgia'
         KUBECONFIG_CREDENTIALS_ID = 'kubeconfig'
     }
     stages {
