@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    sed -i 's|image: jagseersingh/react-app:.*|image: jagseersingh/react-app:${env.BUILD_ID}|' deployment.yaml
+                    sed -i 's|image: jagseersingh/react-app:.*|image: jagseersingh/react-app:${env.BUILD_ID}|' k8s/deployment.yaml
                     """
                 }
             }
