@@ -1,16 +1,11 @@
 pipeline {
     agent any
     environment {
-        DOCKERHUB_CREDENTIALS= credentials('jagseersingh')
+        DOCKERHUB_CREDENTIALS = credentials('jagseersingh')
         GITHUB_CREDENTIALS_ID = 'js-talentelgia'
         KUBECONFIG_CREDENTIALS_ID = 'kubeconfig'
     }
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Build') {
             steps {
                 script {
@@ -19,13 +14,13 @@ pipeline {
             }
         }
         stage('Login to Docker Hub') {         
-            steps{                            
+            steps {                            
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
                 echo 'Login Completed'                
             }           
         }
         stage('Push') {
-            steps{                            
+            steps {                            
                 sh "docker push jagseersingh/react-app:${env.BUILD_ID}"
                 echo 'Push Image Completed'       
             }    
@@ -55,18 +50,17 @@ pipeline {
             }
         }
     }
-    post{
-        // only triggered when blue or green sign
+    post {
         success {
             slackSend color: 'good', message: "Build SUCCESS: ${currentBuild.fullDisplayName} [${env.BUILD_NUMBER}] (<${env.BUILD_URL}|Open>)"
         }
-        // triggered when red sign
         failure {
             slackSend color: 'danger', message: "Build FAILURE: ${currentBuild.fullDisplayName} [${env.BUILD_NUMBER}] (<${env.BUILD_URL}|Open>)"
         }
-        // trigger every-works
         always {
             sh 'docker logout || exit 1'
-        }      
-    } 
+            sh "docker rmi jagseersingh/react-app:${env.BUILD_ID} || true" // Remove the Docker image after the build
+            deleteDir() // Clear the workspace
+        }
+    }
 }
