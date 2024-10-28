@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Push') {
             steps{                            
-                sh "docker push jagseersingh/react-repo:${env.BUILD_ID}"                 
+                sh "docker push jagseersingh/react-app:${env.BUILD_ID}"
                 echo 'Push Image Completed'       
             }    
         }
