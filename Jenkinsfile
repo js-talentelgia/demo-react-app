@@ -6,6 +6,11 @@ pipeline {
         KUBECONFIG_CREDENTIALS_ID = 'kubeconfig'
     }
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
                 script {
@@ -41,7 +46,7 @@ pipeline {
                         sh """
                         git config user.email "jenkins@example.com" || exit 1
                         git config user.name "Jenkins" || exit 1
-                        git add deployment.yaml || exit 1
+                        git add k8s/deployment.yaml || exit 1
                         git commit -m "Update image tag to ${env.BUILD_ID}" || exit 1
                         git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/js-talentelgia/demo-react-app.git HEAD:main || exit 1
                         """
