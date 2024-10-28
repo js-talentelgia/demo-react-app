@@ -18,14 +18,17 @@ pipeline {
                 }
             }
         }
+        stage('Login to Docker Hub') {         
+            steps{                            
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
+                echo 'Login Completed'                
+            }           
+        }
         stage('Push') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKER_CREDENTIALS_ID') {
-                        dockerImage.push()
-                    }
-                }
-            }
+            steps{                            
+                sh 'docker push jagseersingh/react-repo:${env.BUILD_ID}'                 
+                echo 'Push Image Completed'       
+            }    
         }
         stage('Update Manifests') {
             steps {
