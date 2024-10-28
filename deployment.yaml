@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
       - name: react-app
-        image: jagseersingh/react-app:28
+        image: jagseersingh/react-app:32
         ports:
         - containerPort: 3000
