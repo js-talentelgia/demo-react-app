@@ -30,6 +30,17 @@ pipeline {
                 echo 'Push Image Completed'       
             }    
         }
+        stage('Pull latest Changes') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'js-talentelgia', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                        sh """
+                        git pull https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/js-talentelgia/demo-react-app.git HEAD:main || exit 1
+                        """
+                    }
+                }
+            }
+        }
         stage('Update Manifests') {
             steps {
                 script {
