@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_CREDENTIALS_ID = 'jagseersingh'
+        DOCKERHUB_CREDENTIALS= credentials('jagseersingh')
         GITHUB_CREDENTIALS_ID = 'js-talentelgia'
         KUBECONFIG_CREDENTIALS_ID = 'kubeconfig'
     }
