@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    dockerImage = docker.build("jagseersingh/react-repo:${env.BUILD_ID}")
+                    dockerImage = docker.build("jagseersingh/react-app:${env.BUILD_ID}")
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    sed -i 's|image: jagseersingh/react-repo:.*|image: jagseersingh/react-repo:${env.BUILD_ID}|' deployment.yaml
+                    sed -i 's|image: jagseersingh/react-app:.*|image: jagseersingh/react-app:${env.BUILD_ID}|' deployment.yaml
                     """
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
         stage('Commit and Push Changes') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIALS_ID', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'js-talentelgia', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                         sh """
                         git config user.email "jenkins@example.com"
                         git config user.name "Jenkins"
